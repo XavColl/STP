@@ -1,0 +1,38 @@
+*{
+    margin : 0px;
+    padding : 0px;
+}
+#game{
+    height : 100vh;
+    width : 60%;
+}
+#board{
+    height : 80%;
+    width : 100%;
+    display : flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.row{
+    height : 5%;
+    width : 99%;
+    display: flex;
+    justify-content: space-around;
+}
+.square{
+    border : 3px solid black;
+    height : 100%;
+    width : 5%;
+}
+.teleport{
+    background-color: blueviolet;
+}
+.wall{
+    background-color : black;
+}
+.player1{
+    background-color : green;
+}
+.player2{
+    background-color : red;
+}
