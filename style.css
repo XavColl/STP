@@ -4,11 +4,30 @@
 }
 #game{
     height : 100vh;
-    width : 60%;
+    width : 100%;
+    z-index: 0;
+    position : absolute;
+    background-color: antiquewhite;
+}
+#mode{
+    height : 100vh;
+    width : 100%;
+    z-index: 0;
+    position : absolute;
+    background-color: antiquewhite;
+    display : flex;
+    flex-direction : column;
+    justify-content: space-around;
+    z-index: 1;
+}
+.choice{
+    display : flex;
+    justify-content: center;
+    width : 100%;
 }
 #board{
     height : 80%;
-    width : 100%;
+    width : 60%;
     display : flex;
     flex-direction: column;
     justify-content: space-around;
@@ -35,4 +54,14 @@
 }
 .player2{
     background-color : red;
+}
+.player3{
+    background-color : blue;
+}
+.player4{
+    background-color: yellow;
+}
+button{
+    height : 100px;
+    width : 50%;
 }

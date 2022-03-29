@@ -1,10 +1,11 @@
 $(document).ready(function(){
 
-    let turn = true;
+    let turn = 'player 1';
     let play = false;
     let tp = false;
     let preWall = [];
     let increment = 0;
+    let mode = 4;
 
     function Square(long,lat,player){
         this.long = long;
@@ -35,16 +36,32 @@ $(document).ready(function(){
     const doAction = () => {
         if(increment>=2){
             increment = 0;
-            turn = !turn;
+            turn = changeTurn(turn)
         }
         else {
             increment ++;
         }
     }
 
+    const changeTurn = (t) => {
+        if(t === 'player 1'){
+            return 'player 2'
+        }
+        else if(t === 'player 2' && mode>2){
+            return 'player 3';
+        }
+        else if(t === 'player 3' && mode>3){
+            return 'player 4';
+        }
+        else {
+            return 'player 1';
+        }
+    }
 
-    const displayBoard = () => {
+
+    const displayBoard = (nbr) => {
         let i = 0;
+        mode = nbr;
 
         while(i<arrNbr.length){
             let j = 0;
@@ -115,15 +132,10 @@ $(document).ready(function(){
 
    
 
-    const turnPlayer = () => {
-        if(turn) return "player 1";
-        else return "player 2"
-    }
-
     const turnPlayerObj = () => {
         let a = 0;
         while(a<listSquares.length){
-            if(turnPlayer() === listSquares[a].player){
+            if(turn === listSquares[a].player){
                 return listSquares[a]
             }
             a++;
@@ -132,18 +144,40 @@ $(document).ready(function(){
 
     const touch = (square) => {
         if(!play){
-            if(turn && square.long === 1){
+            if(turn === 'player 1' && square.long === 1){
                 if(square.lat === 3 || square.lat === 4 || square.lat === 5 || square.lat === 11 || square.lat === 12 || square.lat === 13){
                     square.player = "player 1";
                     getJqSquare(square.long, square.lat).addClass('player1');
-                    turn = false;
+                    turn = changeTurn(turn);
                 }
-            }else if (!turn && square.long ===15){
+            }else if (turn === 'player 2' && square.long ===15){
                 if(square.lat === 3 || square.lat === 4 || square.lat === 5 || square.lat === 11 || square.lat === 12 || square.lat === 13){
                     square.player = "player 2";
                     getJqSquare(square.long, square.lat).addClass('player2');
-                    turn = true;
-                    play = true;
+                    turn = changeTurn(turn);
+                    if(mode === 2){
+                        play = true;
+                    }
+                }
+            }
+            else if (turn === 'player 3' && square.lat ===15){
+                if(square.long === 3 || square.long === 4 || square.long === 5 || square.long === 11 || square.long === 12 || square.long === 13){
+                    square.player = "player 3";
+                    getJqSquare(square.long, square.lat).addClass('player3');
+                    turn = changeTurn(turn);
+                    if(mode === 3){
+                        play = true;
+                    }
+                }
+            }
+            else if (turn === 'player 4' && square.lat ===1){
+                if(square.long === 3 || square.long === 4 || square.long === 5 || square.long === 11 || square.long === 12 || square.long === 13){
+                    square.player = "player 4";
+                    getJqSquare(square.long, square.lat).addClass('player4');
+                    turn = changeTurn(turn);
+                    if(mode > 3){
+                        play = true;
+                    }
                 }
             }
             else{
@@ -158,18 +192,34 @@ $(document).ready(function(){
             sq.teleport = false;
             sq.wall = true;
             console.log(sq.long + "," + sq.lat)
-            getJqSquare(sq.long, sq.lat).removeClass('player1').removeClass('player2').removeClass('teleport').addClass('wall');
+            getJqSquare(sq.long, sq.lat)
+                .removeClass('player1')
+                .removeClass('player2')
+                .removeClass('player3')
+                .removeClass('player4')
+                .removeClass('teleport')
+                .addClass('wall');
             getJqSquare(square.long, square.lat).removeClass('teleport');
             square.teleport = false;
-            square.player = turnPlayer();  
-            if(turnPlayer() === 'player 1'){
+            square.player = turn;  
+            if(turn === 'player 1'){
                 $('.square').removeClass('player1');
                 getJqSquare((square.long),square.lat).addClass('player1');
                 console.log('player 1')
-            }else if(turnPlayer() === 'player 2'){
+            }else if(turn === 'player 2'){
                 $('.square').removeClass('player2');
                 getJqSquare((square.long),square.lat).addClass('player2');
                 console.log('player 2')
+            }
+            else if(turn === 'player 3'){
+                $('.square').removeClass('player3');
+                getJqSquare((square.long),square.lat).addClass('player3');
+                console.log('player 3')
+            }
+            else if(turn === 'player 4'){
+                $('.square').removeClass('player4');
+                getJqSquare((square.long),square.lat).addClass('player4');
+                console.log('player 4')
             }
             else{
                 alert('PROBLEM');
@@ -189,13 +239,21 @@ $(document).ready(function(){
                 let sq = turnPlayerObj();
                 sq.player = '';
                 sq.wall = true;
-                getObjSquare((sq.long - 1),sq.lat).player = turnPlayer();
-                if(turnPlayer() === 'player 1'){
+                getObjSquare((sq.long - 1),sq.lat).player = turn;
+                if(turn === 'player 1'){
                     $('.square').removeClass('player1');
                     getJqSquare((sq.long - 1),sq.lat).addClass('player1');
-                }else {
+                }else if(turn === 'player 2'){
                     $('.square').removeClass('player2');
                     getJqSquare((sq.long - 1),sq.lat).addClass('player2');
+                }
+                else if(turn === 'player 3'){
+                    $('.square').removeClass('player3');
+                    getJqSquare((sq.long - 1),sq.lat).addClass('player3');
+                }
+                else if(turn === 'player 4'){
+                    $('.square').removeClass('player4');
+                    getJqSquare((sq.long - 1),sq.lat).addClass('player4');
                 }
                 getJqSquare((sq.long),sq.lat).addClass('wall');
                 if(turnPlayerObj().teleport){ tp = true;}
@@ -207,13 +265,21 @@ $(document).ready(function(){
                 let sq = turnPlayerObj();
                 sq.player = '';
                 sq.wall = true;
-                getObjSquare((sq.long + 1),sq.lat).player = turnPlayer();
-                if(turnPlayer() === 'player 1'){
+                getObjSquare((sq.long + 1),sq.lat).player = turn;
+                if(turn === 'player 1'){
                     $('.square').removeClass('player1');
                     getJqSquare((sq.long + 1),sq.lat).addClass('player1');
-                }else {
+                }else if(turn === 'player 2'){
                     $('.square').removeClass('player2');
                     getJqSquare((sq.long + 1),sq.lat).addClass('player2');
+                }
+                else if(turn === 'player 3'){
+                    $('.square').removeClass('player3');
+                    getJqSquare((sq.long + 1),sq.lat).addClass('player3');
+                }
+                else if(turn === 'player 4'){
+                    $('.square').removeClass('player4');
+                    getJqSquare((sq.long + 1),sq.lat).addClass('player4');
                 }
                 getJqSquare((sq.long),sq.lat).addClass('wall');
                 if(turnPlayerObj().teleport) {tp = true;}
@@ -226,13 +292,21 @@ $(document).ready(function(){
                 let sq = turnPlayerObj();
                 sq.player = '';
                 sq.wall = true;
-                getObjSquare(sq.long,(sq.lat - 1)).player = turnPlayer();
-                if(turnPlayer() === 'player 1'){
+                getObjSquare(sq.long,(sq.lat - 1)).player = turn;
+                if(turn === 'player 1'){
                     $('.square').removeClass('player1');
                     getJqSquare(sq.long,(sq.lat - 1)).addClass('player1');
-                }else {
+                }else if (turn === 'player 2'){
                     $('.square').removeClass('player2');
                     getJqSquare(sq.long,(sq.lat - 1)).addClass('player2');
+                }
+                else if (turn === 'player 3'){
+                    $('.square').removeClass('player3');
+                    getJqSquare(sq.long,(sq.lat - 1)).addClass('player3');
+                }
+                else if (turn === 'player 4'){
+                    $('.square').removeClass('player4');
+                    getJqSquare(sq.long,(sq.lat - 1)).addClass('player4');
                 }
                 getJqSquare((sq.long),sq.lat).addClass('wall');
                 if(turnPlayerObj().teleport) {tp = true;}
@@ -245,13 +319,21 @@ $(document).ready(function(){
                 let sq = turnPlayerObj();
                 sq.player = '';
                 sq.wall = true;
-                getObjSquare(sq.long,(sq.lat + 1)).player = turnPlayer();
-                if(turnPlayer() === 'player 1'){
+                getObjSquare(sq.long,(sq.lat + 1)).player = turn;
+                if(turn === 'player 1'){
                     $('.square').removeClass('player1');
                     getJqSquare(sq.long,(sq.lat + 1)).addClass('player1');
-                }else {
+                }else if (turn === 'player 2'){
                     $('.square').removeClass('player2');
                     getJqSquare(sq.long,(sq.lat + 1)).addClass('player2');
+                }
+                else if (turn === 'player 3'){
+                    $('.square').removeClass('player3');
+                    getJqSquare(sq.long,(sq.lat + 1)).addClass('player3');
+                }
+                else if (turn === 'player 4'){
+                    $('.square').removeClass('player4');
+                    getJqSquare(sq.long,(sq.lat + 1)).addClass('player4');
                 }
                 getJqSquare((sq.long),sq.lat).addClass('wall');
                 if(turnPlayerObj().teleport){ tp = true;}
@@ -263,6 +345,19 @@ $(document).ready(function(){
 
     
 
-    displayBoard();
+    // displayBoard();
+
+    $('#2').on('click', () => {
+        displayBoard(2);
+        $('#game').css({ 'z-index' : '2'});
+    })
+    $('#3').on('click', () => {
+        displayBoard(3);
+        $('#game').css({ 'z-index' : '2'});
+    })
+    $('#4').on('click', () => {
+        displayBoard(4);
+        $('#game').css({ 'z-index' : '2' });
+    })
 
 });
