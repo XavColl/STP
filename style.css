@@ -8,6 +8,8 @@
     z-index: 0;
     position : absolute;
     background-color: antiquewhite;
+    display : flex;
+    justify-content: space-between;
 }
 #mode{
     height : 100vh;
@@ -64,4 +66,9 @@
 button{
     height : 100px;
     width : 50%;
+}
+#nbr{
+    height : 80%;
+    width : 30%;
+    border : 3px solid black
 }

@@ -41,7 +41,11 @@ $(document).ready(function(){
         else {
             increment ++;
         }
+        n = 3 - increment;
+        $('#nbr').children().remove();
+        $('#nbr').append('<div><p>coups restants : ' + n + '</p><h2>' + turn +'</h2></div>')
     }
+
 
     const changeTurn = (t) => {
         if(t === 'player 1'){
@@ -86,7 +90,7 @@ $(document).ready(function(){
             str += "</div>";
             i++;
         }
-        str += "</div>"
+        str += "</div><div id='nbr'></div>"
         $('#game').append(str);
 
         getObjSquare(1,1).teleport = true;
