@@ -72,3 +72,7 @@ button{
     width : 30%;
     border : 3px solid black
 }
+#reminder{
+    width : 100px;
+    height: 50px;
+}
