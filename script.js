@@ -73,7 +73,7 @@ $(document).ready(function(){
                 return "player1";
             }
             else {
-                console.log("fin");
+                alert('FIN');
             }
         }
         else if(t === "player3"){
@@ -87,7 +87,7 @@ $(document).ready(function(){
                 return "player2";
             }
             else {
-                console.log("fin");
+                alert('FIN');
             }
         }
         else if(t === "player4"){
@@ -101,7 +101,7 @@ $(document).ready(function(){
                 return "player3";
             }
             else {
-                console.log("fin");
+                alert('FIN');
             }
         }
         else{
