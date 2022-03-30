@@ -42,8 +42,10 @@ $(document).ready(function(){
             increment ++;
         }
         n = 3 - increment;
+        try{
         $("#nbr").children().remove();
         $("#nbr").append("<div><p>coups restants : " + n + "</p><h2>" + turn +"</h2><br/></div><div id='reminder' class='" + turn +"'></div>")
+    }catch(e){}
     }
 
 
