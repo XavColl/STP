@@ -304,7 +304,8 @@ $(document).ready(function(){
     $(document).keyup(function(touche){
         let s = parseInt(turn.split('r')[1]) - 1;
         if(alive[s] === false){
-            doAction();
+        $("#nbr").children().remove();
+        $("#nbr").append("<div><p>coups restants : " + n + "</p><h2>" + turn +"</h2><br/></div><div id='reminder' class='" + turn +"'></div>")
             return;
         }
         var press = touche.which || touche.keyCode; 
@@ -525,7 +526,8 @@ $(document).ready(function(){
                 }
             }
         }catch{console.log("catch")}
-        
+        $("#nbr").children().remove();
+        $("#nbr").append("<div><p>coups restants : " + n + "</p><h2>" + turn +"</h2><br/></div><div id='reminder' class='" + turn +"'></div>")
         
         
     });
