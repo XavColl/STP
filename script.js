@@ -59,7 +59,7 @@ $(document).ready(function(){
                 return "player4";
             }
             else {
-                console.log("fin");
+                alert('FIN');
             }
         }
         else if(t === "player2"){
@@ -105,7 +105,8 @@ $(document).ready(function(){
             }
         }
         else{
-            console.log("problem");
+            console.log("problem, ");
+            console.log(alive);
         }
     }
 
@@ -205,12 +206,12 @@ $(document).ready(function(){
    
 
     const turnPlayerObj = () => {
-        let a = 0;
-        while(a<listSquares.length){
-            if(turn === listSquares[a].player){
-                return listSquares[a]
+        let i = 0;
+        while(i<listSquares.length){
+            if(turn === listSquares[i].player){
+                return listSquares[i]
             }
-            a++;
+            i++;
         }
     }
 
@@ -301,7 +302,11 @@ $(document).ready(function(){
     }
 
     $(document).keyup(function(touche){
-
+        let s = parseInt(turn.split('r')[1]) - 1;
+        if(alive[s] === false){
+            doAction();
+            return;
+        }
         var press = touche.which || touche.keyCode; 
     
         if(press === 90 || press === 38){
@@ -434,6 +439,95 @@ $(document).ready(function(){
                 else {doAction();}
             }
         }
+        try{
+            let id = turnPlayerObj()
+            let long = id.long
+            let lat = id.lat
+            if(turnPlayerObj().lat<15 && turnPlayerObj().lat>1 && turnPlayerObj().long<15 && turnPlayerObj().long>1){
+                if (getObjSquare((long+1),lat).wall===true && getObjSquare(long,(lat+1)).wall===true && getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat-1)).wall===true){
+                    console.log('!!!!')
+                    getObjSquare(long,lat).player = "";
+                    getJqSquare(long,lat).removeClass(turn);
+                    let n = parseInt(turn.split("r")[1]) - 1;
+                    verif(n);
+                    turn = changeTurn(turn);
+                    increment =0;
+                }
+            }
+            else if(turnPlayerObj().lat===15){
+                if(turnPlayerObj().lat>1 && turnPlayerObj().long<15 && turnPlayerObj().long>1){
+                    if (getObjSquare((long+1),lat).wall===true && getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat-1)).wall===true){
+                        console.log('!!!!')
+                        getObjSquare(long,lat).player = "";
+                        getJqSquare(long,lat).removeClass(turn);
+                        let n = parseInt(turn.split("r")[1]) - 1;
+                        verif(n);
+                        turn = changeTurn(turn);
+                        increment = 0;
+                    }
+                }else if(turnPlayerObj().long===15){
+                    if (getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat-1)).wall===true){
+                        console.log('!!!!')
+                        getObjSquare(long,lat).player = "";
+                        getJqSquare(long,lat).removeClass(turn);
+                        let n = parseInt(turn.split("r")[1]) - 1;
+                        verif(n);
+                        turn = changeTurn(turn);
+                        increment = 0;
+                    }
+                }
+                else if(turnPlayerObj().long===1){
+                    if (getObjSquare((long+1),lat).wall===true && getObjSquare(long,(lat-1)).wall===true){
+                        console.log('!!!!')
+                        getObjSquare(long,lat).player = "";
+                        getJqSquare(long,lat).removeClass(turn);
+                        let n = parseInt(turn.split("r")[1]) - 1;
+                        verif(n);
+                        turn = changeTurn(turn);
+                        increment = 0;
+                    }
+                }
+            }
+            else if(turnPlayerObj().lat===1){
+                if(turnPlayerObj().lat<15 && turnPlayerObj().long<15 && turnPlayerObj().long>1){
+                    if (getObjSquare((long+1),lat).wall===true && getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat+1)).wall===true){
+                        console.log('!!!!')
+                        getObjSquare(long,lat).player = "";
+                        getJqSquare(long,lat).removeClass(turn);
+                        let n = parseInt(turn.split("r")[1]) - 1;
+                        verif(n);
+                        turn = changeTurn(turn);
+                        increment = 0;
+                    }
+                }else if(turnPlayerObj().long===15){
+                    if (getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat+1)).wall===true){
+                        console.log('!!!!')
+                        getObjSquare(long,lat).player = "";
+                        getJqSquare(long,lat).removeClass(turn);
+                        let n = parseInt(turn.split("r")[1]) - 1;
+                        verif(n);
+                        turn = changeTurn(turn);
+                        increment = 0;
+                    }
+                }
+                else if(turnPlayerObj().long===1){
+                    if (getObjSquare((long+1),lat).wall===true && getObjSquare(long,(lat+1)).wall===true){
+                        console.log('!!!!')
+                        getObjSquare(long,lat).player = "";
+                        getJqSquare(long,lat).removeClass(turn);
+                        let n = parseInt(turn.split("r")[1]) - 1;
+                        verif(n);
+                        turn = changeTurn(turn);
+                        increment = 0;
+                    }
+                }else {
+                    console.log("aie aie aie");
+                }
+            }
+        }catch{console.log("catch")}
+        
+        
+        
     });
 
 
