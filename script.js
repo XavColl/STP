@@ -1,16 +1,16 @@
 $(document).ready(function(){
 
-    let turn = 'player 1';
+    let turn = "player1";
     let play = false;
     let tp = false;
-    let preWall = [];
+    let alive = [];
     let increment = 0;
     let mode = 4;
 
     function Square(long,lat,player){
         this.long = long;
         this.lat = lat;
-        this.player = '';
+        this.player = "";
         this.wall = false;
         this.teleport = false;
     }
@@ -42,23 +42,70 @@ $(document).ready(function(){
             increment ++;
         }
         n = 3 - increment;
-        $('#nbr').children().remove();
-        $('#nbr').append('<div><p>coups restants : ' + n + '</p><h2>' + turn +'</h2></div>')
+        $("#nbr").children().remove();
+        $("#nbr").append("<div><p>coups restants : " + n + "</p><h2>" + turn +"</h2></div>")
     }
 
 
     const changeTurn = (t) => {
-        if(t === 'player 1'){
-            return 'player 2'
+        if(t === "player1"){
+            if(alive[1] === true){
+                return "player2";
+            }
+            else if(alive[2] === true){
+                return "player3";
+            }
+            else if(alive[3] === true){
+                return "player4";
+            }
+            else {
+                console.log("fin");
+            }
         }
-        else if(t === 'player 2' && mode>2){
-            return 'player 3';
+        else if(t === "player2"){
+            if(alive[2] === true){
+                return "player3";
+            }
+            else if(alive[3] === true){
+                return "player4";
+            }
+            else if(alive[0] === true){
+                return "player1";
+            }
+            else {
+                console.log("fin");
+            }
         }
-        else if(t === 'player 3' && mode>3){
-            return 'player 4';
+        else if(t === "player3"){
+            if(alive[3] === true){
+                return "player4";
+            }
+            else if(alive[0] === true){
+                return "player1";
+            }
+            else if(alive[1] === true){
+                return "player2";
+            }
+            else {
+                console.log("fin");
+            }
         }
-        else {
-            return 'player 1';
+        else if(t === "player4"){
+            if(alive[0] === true){
+                return "player1";
+            }
+            else if(alive[1] === true){
+                return "player2";
+            }
+            else if(alive[2] === true){
+                return "player3";
+            }
+            else {
+                console.log("fin");
+            }
+        }
+        else{
+            console.log("problem");
         }
     }
 
@@ -66,6 +113,17 @@ $(document).ready(function(){
     const displayBoard = (nbr) => {
         let i = 0;
         mode = nbr;
+        while(i<4){
+            if(i<nbr){
+                alive.push(true);
+            }
+            else{
+                alive.push(false);
+            }
+            i++;
+        }
+
+        i = 0;
 
         while(i<arrNbr.length){
             let j = 0;
@@ -91,7 +149,7 @@ $(document).ready(function(){
             i++;
         }
         str += "</div><div id='nbr'></div>"
-        $('#game').append(str);
+        $("#game").append(str);
 
         getObjSquare(1,1).teleport = true;
         getObjSquare(8,1).teleport = true;
@@ -124,16 +182,26 @@ $(document).ready(function(){
             i++;
         }
 
-        $('.square').on('click', function(){
+        $(".square").on("click", function(){
             let id = $(this).attr("id");
-            console.log(id);
-            let long = parseInt(id.split('-')[0]);
-            let lat = parseInt(id.split('-')[1]);
+            let long = parseInt(id.split("-")[0]);
+            let lat = parseInt(id.split("-")[1]);
             let square = getObjSquare(long,lat);
             touch(square);
         })
     }
 
+    const verif = (n) => {
+        let i = 0;
+        let arr = [];
+        while(i<4){
+            if(i===n){
+                arr.push(false);
+            }else {arr.push(alive[i]);}
+            i++;
+        }
+        alive = arr;
+    }
    
 
     const turnPlayerObj = () => {
@@ -148,36 +216,36 @@ $(document).ready(function(){
 
     const touch = (square) => {
         if(!play){
-            if(turn === 'player 1' && square.long === 1){
+            if(turn === "player1" && square.long === 1){
                 if(square.lat === 3 || square.lat === 4 || square.lat === 5 || square.lat === 11 || square.lat === 12 || square.lat === 13){
-                    square.player = "player 1";
-                    getJqSquare(square.long, square.lat).addClass('player1');
+                    square.player = "player1";
+                    getJqSquare(square.long, square.lat).addClass("player1");
                     turn = changeTurn(turn);
                 }
-            }else if (turn === 'player 2' && square.long ===15){
+            }else if (turn === "player2" && square.long ===15){
                 if(square.lat === 3 || square.lat === 4 || square.lat === 5 || square.lat === 11 || square.lat === 12 || square.lat === 13){
-                    square.player = "player 2";
-                    getJqSquare(square.long, square.lat).addClass('player2');
+                    square.player = "player2";
+                    getJqSquare(square.long, square.lat).addClass("player2");
                     turn = changeTurn(turn);
                     if(mode === 2){
                         play = true;
                     }
                 }
             }
-            else if (turn === 'player 3' && square.lat ===15){
+            else if (turn === "player3" && square.lat ===15){
                 if(square.long === 3 || square.long === 4 || square.long === 5 || square.long === 11 || square.long === 12 || square.long === 13){
-                    square.player = "player 3";
-                    getJqSquare(square.long, square.lat).addClass('player3');
+                    square.player = "player3";
+                    getJqSquare(square.long, square.lat).addClass("player3");
                     turn = changeTurn(turn);
                     if(mode === 3){
                         play = true;
                     }
                 }
             }
-            else if (turn === 'player 4' && square.lat ===1){
+            else if (turn === "player4" && square.lat ===1){
                 if(square.long === 3 || square.long === 4 || square.long === 5 || square.long === 11 || square.long === 12 || square.long === 13){
-                    square.player = "player 4";
-                    getJqSquare(square.long, square.lat).addClass('player4');
+                    square.player = "player4";
+                    getJqSquare(square.long, square.lat).addClass("player4");
                     turn = changeTurn(turn);
                     if(mode > 3){
                         play = true;
@@ -190,48 +258,46 @@ $(document).ready(function(){
             }
         }
         else if(tp && square.teleport){
-            console.log(square);
             let sq = turnPlayerObj();
-            sq.player = '';
+            sq.player = "";
             sq.teleport = false;
             sq.wall = true;
-            console.log(sq.long + "," + sq.lat)
             getJqSquare(sq.long, sq.lat)
-                .removeClass('player1')
-                .removeClass('player2')
-                .removeClass('player3')
-                .removeClass('player4')
-                .removeClass('teleport')
-                .addClass('wall');
-            getJqSquare(square.long, square.lat).removeClass('teleport');
+                .removeClass("player1")
+                .removeClass("player2")
+                .removeClass("player3")
+                .removeClass("player4")
+                .removeClass("teleport")
+                .addClass("wall");
+            getJqSquare(square.long, square.lat).removeClass("teleport");
             square.teleport = false;
             square.player = turn;  
-            if(turn === 'player 1'){
-                $('.square').removeClass('player1');
-                getJqSquare((square.long),square.lat).addClass('player1');
-                console.log('player 1')
-            }else if(turn === 'player 2'){
-                $('.square').removeClass('player2');
-                getJqSquare((square.long),square.lat).addClass('player2');
-                console.log('player 2')
+            if(turn === "player1"){
+                $(".square").removeClass("player1");
+                getJqSquare((square.long),square.lat).addClass("player1");
+                
+            }else if(turn === "player2"){
+                $(".square").removeClass("player2");
+                getJqSquare((square.long),square.lat).addClass("player2");
+                
             }
-            else if(turn === 'player 3'){
-                $('.square').removeClass('player3');
-                getJqSquare((square.long),square.lat).addClass('player3');
-                console.log('player 3')
+            else if(turn === "player3"){
+                $(".square").removeClass("player3");
+                getJqSquare((square.long),square.lat).addClass("player3");
+                
             }
-            else if(turn === 'player 4'){
-                $('.square').removeClass('player4');
-                getJqSquare((square.long),square.lat).addClass('player4');
-                console.log('player 4')
+            else if(turn === "player4"){
+                $(".square").removeClass("player4");
+                getJqSquare((square.long),square.lat).addClass("player4");
+                
             }
             else{
-                alert('PROBLEM');
+                alert("PROBLEM");
             }
             doAction();
             tp = false;
         }
-        else console.log('touch');
+        else console.log("touch");
     }
 
     $(document).keyup(function(touche){
@@ -241,25 +307,31 @@ $(document).ready(function(){
         if(press === 90 || press === 38){
             if(turnPlayerObj().long>1 && getObjSquare((turnPlayerObj().long - 1),turnPlayerObj().lat).wall === false && tp === false){
                 let sq = turnPlayerObj();
-                sq.player = '';
+                if(getJqSquare((sq.long - 1),sq.lat).hasClass("player1") || getJqSquare((sq.long - 1),sq.lat).hasClass("player2") || getJqSquare((sq.long - 1),sq.lat).hasClass("player3") || getJqSquare((sq.long - 1),sq.lat).hasClass("player4")){
+                    getJqSquare((sq.long - 1),sq.lat).removeClass("player1").removeClass("player2").removeClass("player3").removeClass("player4");
+                    let n = parseInt(getObjSquare((sq.long - 1),sq.lat).player.split("r")[1]) - 1;
+                    
+                    verif(n);
+                }
+                sq.player = "";
                 sq.wall = true;
                 getObjSquare((sq.long - 1),sq.lat).player = turn;
-                if(turn === 'player 1'){
-                    $('.square').removeClass('player1');
-                    getJqSquare((sq.long - 1),sq.lat).addClass('player1');
-                }else if(turn === 'player 2'){
-                    $('.square').removeClass('player2');
-                    getJqSquare((sq.long - 1),sq.lat).addClass('player2');
+                if(turn === "player1"){
+                    $(".square").removeClass("player1");
+                    getJqSquare((sq.long - 1),sq.lat).addClass("player1");
+                }else if(turn === "player2"){
+                    $(".square").removeClass("player2");
+                    getJqSquare((sq.long - 1),sq.lat).addClass("player2");
                 }
-                else if(turn === 'player 3'){
-                    $('.square').removeClass('player3');
-                    getJqSquare((sq.long - 1),sq.lat).addClass('player3');
+                else if(turn === "player3"){
+                    $(".square").removeClass("player3");
+                    getJqSquare((sq.long - 1),sq.lat).addClass("player3");
                 }
-                else if(turn === 'player 4'){
-                    $('.square').removeClass('player4');
-                    getJqSquare((sq.long - 1),sq.lat).addClass('player4');
+                else if(turn === "player4"){
+                    $(".square").removeClass("player4");
+                    getJqSquare((sq.long - 1),sq.lat).addClass("player4");
                 }
-                getJqSquare((sq.long),sq.lat).addClass('wall');
+                getJqSquare((sq.long),sq.lat).addClass("wall");
                 if(turnPlayerObj().teleport){ tp = true;}
                 else {doAction();}
             }
@@ -267,25 +339,31 @@ $(document).ready(function(){
         else if(press === 83 || press === 40 ){
             if(turnPlayerObj().long<15 && getObjSquare((turnPlayerObj().long + 1),turnPlayerObj().lat).wall === false && tp === false){
                 let sq = turnPlayerObj();
-                sq.player = '';
+                if(getJqSquare((sq.long + 1),sq.lat).hasClass("player1") || getJqSquare((sq.long + 1),sq.lat).hasClass("player2") || getJqSquare((sq.long + 1),sq.lat).hasClass("player3") || getJqSquare((sq.long + 1),sq.lat).hasClass("player4")){
+                    getJqSquare((sq.long + 1),sq.lat).removeClass("player1").removeClass("player2").removeClass("player3").removeClass("player4");
+                    let n = parseInt(getObjSquare((sq.long + 1),sq.lat).player.split("r")[1]) - 1;
+                    
+                    verif(n)
+                }
+                sq.player = "";
                 sq.wall = true;
                 getObjSquare((sq.long + 1),sq.lat).player = turn;
-                if(turn === 'player 1'){
-                    $('.square').removeClass('player1');
-                    getJqSquare((sq.long + 1),sq.lat).addClass('player1');
-                }else if(turn === 'player 2'){
-                    $('.square').removeClass('player2');
-                    getJqSquare((sq.long + 1),sq.lat).addClass('player2');
+                if(turn === "player1"){
+                    $(".square").removeClass("player1");
+                    getJqSquare((sq.long + 1),sq.lat).addClass("player1");
+                }else if(turn === "player2"){
+                    $(".square").removeClass("player2");
+                    getJqSquare((sq.long + 1),sq.lat).addClass("player2");
                 }
-                else if(turn === 'player 3'){
-                    $('.square').removeClass('player3');
-                    getJqSquare((sq.long + 1),sq.lat).addClass('player3');
+                else if(turn === "player3"){
+                    $(".square").removeClass("player3");
+                    getJqSquare((sq.long + 1),sq.lat).addClass("player3");
                 }
-                else if(turn === 'player 4'){
-                    $('.square').removeClass('player4');
-                    getJqSquare((sq.long + 1),sq.lat).addClass('player4');
+                else if(turn === "player4"){
+                    $(".square").removeClass("player4");
+                    getJqSquare((sq.long + 1),sq.lat).addClass("player4");
                 }
-                getJqSquare((sq.long),sq.lat).addClass('wall');
+                getJqSquare((sq.long),sq.lat).addClass("wall");
                 if(turnPlayerObj().teleport) {tp = true;}
                 else {doAction();}
             }
@@ -294,25 +372,31 @@ $(document).ready(function(){
         else if(press === 81 || press === 37){
             if(turnPlayerObj().lat>1 && getObjSquare(turnPlayerObj().long,(turnPlayerObj().lat - 1)).wall === false && tp === false){
                 let sq = turnPlayerObj();
-                sq.player = '';
+                if(getJqSquare(sq.long,(sq.lat - 1)).hasClass("player1") || getJqSquare(sq.long,(sq.lat - 1)).hasClass("player2") || getJqSquare(sq.long,(sq.lat - 1)).hasClass("player3") || getJqSquare(sq.long,(sq.lat - 1)).hasClass("player4")){
+                    getJqSquare(sq.long,(sq.lat - 1)).removeClass("player1").removeClass("player2").removeClass("player3").removeClass("player4");
+                    let n = parseInt(getObjSquare(sq.long,(sq.lat - 1)).player.split("r")[1]) - 1;
+                    
+                    verif(n)
+                }
+                sq.player = "";
                 sq.wall = true;
                 getObjSquare(sq.long,(sq.lat - 1)).player = turn;
-                if(turn === 'player 1'){
-                    $('.square').removeClass('player1');
-                    getJqSquare(sq.long,(sq.lat - 1)).addClass('player1');
-                }else if (turn === 'player 2'){
-                    $('.square').removeClass('player2');
-                    getJqSquare(sq.long,(sq.lat - 1)).addClass('player2');
+                if(turn === "player1"){
+                    $(".square").removeClass("player1");
+                    getJqSquare(sq.long,(sq.lat - 1)).addClass("player1");
+                }else if (turn === "player2"){
+                    $(".square").removeClass("player2");
+                    getJqSquare(sq.long,(sq.lat - 1)).addClass("player2");
                 }
-                else if (turn === 'player 3'){
-                    $('.square').removeClass('player3');
-                    getJqSquare(sq.long,(sq.lat - 1)).addClass('player3');
+                else if (turn === "player3"){
+                    $(".square").removeClass("player3");
+                    getJqSquare(sq.long,(sq.lat - 1)).addClass("player3");
                 }
-                else if (turn === 'player 4'){
-                    $('.square').removeClass('player4');
-                    getJqSquare(sq.long,(sq.lat - 1)).addClass('player4');
+                else if (turn === "player4"){
+                    $(".square").removeClass("player4");
+                    getJqSquare(sq.long,(sq.lat - 1)).addClass("player4");
                 }
-                getJqSquare((sq.long),sq.lat).addClass('wall');
+                getJqSquare((sq.long),sq.lat).addClass("wall");
                 if(turnPlayerObj().teleport) {tp = true;}
                 else {doAction();}
             }
@@ -321,25 +405,31 @@ $(document).ready(function(){
         else if(press === 68 || press === 39){
             if(turnPlayerObj().lat<15 && getObjSquare(turnPlayerObj().long,(turnPlayerObj().lat + 1)).wall === false && tp === false){
                 let sq = turnPlayerObj();
-                sq.player = '';
+                if(getJqSquare(sq.long,(sq.lat + 1)).hasClass("player1") || getJqSquare(sq.long,(sq.lat + 1)).hasClass("player2") || getJqSquare(sq.long,(sq.lat + 1)).hasClass("player3") || getJqSquare(sq.long,(sq.lat + 1)).hasClass("player4")){
+                    getJqSquare(sq.long,(sq.lat + 1)).removeClass("player1").removeClass("player2").removeClass("player3").removeClass("player4");
+                    let n = parseInt(getObjSquare(sq.long,(sq.lat + 1)).player.split("r")[1]) - 1;
+                    
+                    verif(n);
+                }
+                sq.player = "";
                 sq.wall = true;
                 getObjSquare(sq.long,(sq.lat + 1)).player = turn;
-                if(turn === 'player 1'){
-                    $('.square').removeClass('player1');
-                    getJqSquare(sq.long,(sq.lat + 1)).addClass('player1');
-                }else if (turn === 'player 2'){
-                    $('.square').removeClass('player2');
-                    getJqSquare(sq.long,(sq.lat + 1)).addClass('player2');
+                if(turn === "player1"){
+                    $(".square").removeClass("player1");
+                    getJqSquare(sq.long,(sq.lat + 1)).addClass("player1");
+                }else if (turn === "player2"){
+                    $(".square").removeClass("player2");
+                    getJqSquare(sq.long,(sq.lat + 1)).addClass("player2");
                 }
-                else if (turn === 'player 3'){
-                    $('.square').removeClass('player3');
-                    getJqSquare(sq.long,(sq.lat + 1)).addClass('player3');
+                else if (turn === "player3"){
+                    $(".square").removeClass("player3");
+                    getJqSquare(sq.long,(sq.lat + 1)).addClass("player3");
                 }
-                else if (turn === 'player 4'){
-                    $('.square').removeClass('player4');
-                    getJqSquare(sq.long,(sq.lat + 1)).addClass('player4');
+                else if (turn === "player4"){
+                    $(".square").removeClass("player4");
+                    getJqSquare(sq.long,(sq.lat + 1)).addClass("player4");
                 }
-                getJqSquare((sq.long),sq.lat).addClass('wall');
+                getJqSquare((sq.long),sq.lat).addClass("wall");
                 if(turnPlayerObj().teleport){ tp = true;}
                 else {doAction();}
             }
@@ -351,17 +441,17 @@ $(document).ready(function(){
 
     // displayBoard();
 
-    $('#2').on('click', () => {
+    $("#2").on("click", () => {
         displayBoard(2);
-        $('#game').css({ 'z-index' : '2'});
+        $("#game").css({ "z-index" : "2"});
     })
-    $('#3').on('click', () => {
+    $("#3").on("click", () => {
         displayBoard(3);
-        $('#game').css({ 'z-index' : '2'});
+        $("#game").css({ "z-index" : "2"});
     })
-    $('#4').on('click', () => {
+    $("#4").on("click", () => {
         displayBoard(4);
-        $('#game').css({ 'z-index' : '2' });
+        $("#game").css({ "z-index" : "2" });
     })
 
 });
