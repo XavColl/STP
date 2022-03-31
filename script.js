@@ -444,6 +444,9 @@ $(document).ready(function(){
         }
         try{
             let id = turnPlayerObj()
+            if(id.teleport === true){
+                return ;
+            }
             let long = id.long
             let lat = id.lat
             if(turnPlayerObj().lat<15 && turnPlayerObj().lat>1 && turnPlayerObj().long<15 && turnPlayerObj().long>1){
