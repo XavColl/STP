@@ -458,17 +458,7 @@ $(document).ready(function(){
                 }
             }
             else if(turnPlayerObj().lat===15){
-                if(turnPlayerObj().lat>1 && turnPlayerObj().long<15 && turnPlayerObj().long>1){
-                    if (getObjSquare((long+1),lat).wall===true && getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat-1)).wall===true){
-                        console.log('!!!!')
-                        getObjSquare(long,lat).player = "";
-                        getJqSquare(long,lat).removeClass(turn);
-                        let n = parseInt(turn.split("r")[1]) - 1;
-                        verif(n);
-                        turn = changeTurn(turn);
-                        increment = 0;
-                    }
-                }else if(turnPlayerObj().long===15){
+                if (turnPlayerObj().long===15){
                     if (getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat-1)).wall===true){
                         console.log('!!!!')
                         getObjSquare(long,lat).player = "";
@@ -478,9 +468,19 @@ $(document).ready(function(){
                         turn = changeTurn(turn);
                         increment = 0;
                     }
-                }
-                else if(turnPlayerObj().long===1){
+                }else if(turnPlayerObj().long===1){
                     if (getObjSquare((long+1),lat).wall===true && getObjSquare(long,(lat-1)).wall===true){
+                        console.log('!!!!')
+                        getObjSquare(long,lat).player = "";
+                        getJqSquare(long,lat).removeClass(turn);
+                        let n = parseInt(turn.split("r")[1]) - 1;
+                        verif(n);
+                        turn = changeTurn(turn);
+                        increment = 0;
+                    }
+                }
+                else if(turnPlayerObj().lat>1 && turnPlayerObj().long<15 && turnPlayerObj().long>1){
+                    if (getObjSquare((long+1),lat).wall===true && getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat-1)).wall===true){
                         console.log('!!!!')
                         getObjSquare(long,lat).player = "";
                         getJqSquare(long,lat).removeClass(turn);
@@ -513,18 +513,30 @@ $(document).ready(function(){
                         increment = 0;
                     }
                 }
-                else if(turnPlayerObj().long===1){
-                    if (getObjSquare((long+1),lat).wall===true && getObjSquare(long,(lat+1)).wall===true){
-                        console.log('!!!!')
-                        getObjSquare(long,lat).player = "";
-                        getJqSquare(long,lat).removeClass(turn);
-                        let n = parseInt(turn.split("r")[1]) - 1;
-                        verif(n);
-                        turn = changeTurn(turn);
-                        increment = 0;
-                    }
-                }else {
+                else {
                     console.log("aie aie aie");
+                }
+            }
+            else if(turnPlayerObj().long===1){
+                if (getObjSquare((long+1),lat).wall===true && getObjSquare(long,(lat+1)).wall===true && getObjSquare(long,(lat-1)).wall===true){
+                    console.log('!!!!')
+                    getObjSquare(long,lat).player = "";
+                    getJqSquare(long,lat).removeClass(turn);
+                    let n = parseInt(turn.split("r")[1]) - 1;
+                    verif(n);
+                    turn = changeTurn(turn);
+                    increment = 0;
+                }
+            }
+            else if(turnPlayerObj().long===15){
+                if (getObjSquare((long-1),lat).wall===true && getObjSquare(long,(lat+1)).wall===true && getObjSquare(long,(lat-1)).wall===true){
+                    console.log('!!!!')
+                    getObjSquare(long,lat).player = "";
+                    getJqSquare(long,lat).removeClass(turn);
+                    let n = parseInt(turn.split("r")[1]) - 1;
+                    verif(n);
+                    turn = changeTurn(turn);
+                    increment = 0;
                 }
             }
         }catch{console.log("catch")}
