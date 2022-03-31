@@ -50,7 +50,7 @@
     background-color: rgb(214, 113, 209);
 }
 .wall{
-    background-color : rgba(0, 0, 0, 0.6);
+    background-image: url('./brickwall.jpg');
 }
 .player1{
     background-color : rgba(0, 128, 0, 0.6);
