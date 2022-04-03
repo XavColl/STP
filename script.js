@@ -256,11 +256,14 @@ $(document).ready(function(){
                 }
             }
             else{
-                if(turn) alert("Veuillez une case de la première ligne à au moins deux cases d'un téléport." );
-                else alert ("Veuillez une case de la dernière ligne à au moins deux cases d'un téléport.");
+                if(turn) alert("Veuillez vous placer sur une case de la première ligne à au moins deux cases d'un téléport." );
+                else alert ("Veuillez vous placer sur une case de la dernière ligne à au moins deux cases d'un téléport.");
             }
         }
         else if(tp && square.teleport){
+            if(square.player === 'player1' || square.player === 'player2' || square.player === 'player3' || square.player === 'player4'){
+                return;
+            }
             let sq = turnPlayerObj();
             sq.player = "";
             sq.teleport = false;
