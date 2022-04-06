@@ -256,8 +256,10 @@ $(document).ready(function(){
                 }
             }
             else{
-                if(turn) alert("Veuillez vous placer sur une case de la première ligne à au moins deux cases d'un téléport." );
-                else alert ("Veuillez vous placer sur une case de la dernière ligne à au moins deux cases d'un téléport.");
+                if(turn === "player1") alert("Veuillez vous placer sur une case de la première ligne à au moins deux cases d'un téléport." );
+                else if(turn==="player2") alert ("Veuillez vous placer sur une case de la dernière ligne à au moins deux cases d'un téléport.");
+                else if(turn==="player3") alert ("Veuillez vous placer sur une case de la colonne de droite à au moins deux cases d'un téléport.");
+                else if(turn==="player4") alert ("Veuillez vous placer sur une case de la colonne de gauche à au moins deux cases d'un téléport.");
             }
         }
         else if(tp && square.teleport){
