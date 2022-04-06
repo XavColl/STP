@@ -37,6 +37,7 @@ $(document).ready(function(){
         if(increment>=2){
             increment = 0;
             turn = changeTurn(turn)
+            alert('changement de tour')
         }
         else {
             increment ++;
@@ -462,6 +463,7 @@ $(document).ready(function(){
                     let n = parseInt(turn.split("r")[1]) - 1;
                     verif(n);
                     turn = changeTurn(turn);
+                    alert('changement de tour')
                     increment =0;
                 }
             }
@@ -474,6 +476,7 @@ $(document).ready(function(){
                         let n = parseInt(turn.split("r")[1]) - 1;
                         verif(n);
                         turn = changeTurn(turn);
+                        alert('changement de tour')
                         increment = 0;
                     }
                 }else if(turnPlayerObj().long===1){
@@ -484,6 +487,7 @@ $(document).ready(function(){
                         let n = parseInt(turn.split("r")[1]) - 1;
                         verif(n);
                         turn = changeTurn(turn);
+                        alert('changement de tour')
                         increment = 0;
                     }
                 }
@@ -495,6 +499,7 @@ $(document).ready(function(){
                         let n = parseInt(turn.split("r")[1]) - 1;
                         verif(n);
                         turn = changeTurn(turn);
+                        alert('changement de tour')
                         increment = 0;
                     }
                 }
@@ -508,6 +513,7 @@ $(document).ready(function(){
                         let n = parseInt(turn.split("r")[1]) - 1;
                         verif(n);
                         turn = changeTurn(turn);
+                        alert('changement de tour')
                         increment = 0;
                     }
                 }else if(turnPlayerObj().long===15){
@@ -518,6 +524,7 @@ $(document).ready(function(){
                         let n = parseInt(turn.split("r")[1]) - 1;
                         verif(n);
                         turn = changeTurn(turn);
+                        alert('changement de tour')
                         increment = 0;
                     }
                 }
@@ -533,6 +540,7 @@ $(document).ready(function(){
                     let n = parseInt(turn.split("r")[1]) - 1;
                     verif(n);
                     turn = changeTurn(turn);
+                    alert('changement de tour')
                     increment = 0;
                 }
             }
@@ -544,6 +552,7 @@ $(document).ready(function(){
                     let n = parseInt(turn.split("r")[1]) - 1;
                     verif(n);
                     turn = changeTurn(turn);
+                    alert('changement de tour')
                     increment = 0;
                 }
             }
